@@ -1,0 +1,134 @@
+.container-fluid {
+  font-family: 'Source Sans Pro';
+}
+.main {
+  background: #eee;
+  color: #444;
+  position: relative;
+}
+.header {
+  text-align: center;
+  padding: 1rem 0;
+  font-size: 1.7rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 600;
+  position: sticky;
+  top: 0;
+  background-color: inherit;
+  z-index: 1;
+}
+.sub-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.3rem 2rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.search-box {
+  padding: 0.3em 0;
+  min-width: 320px;
+  width: 60%;
+  max-width: 100%;
+
+  input {
+    border-radius: 50px 0 0 50px;
+    color: #444;
+    width: calc(100% - 50px);
+  }
+  input,
+  button {
+    padding: 0.6rem 1rem;
+    border: none;
+    outline: none;
+    box-sizing: border-box;
+  }
+  button {
+    // cursor: pointer;
+    border-radius: 0 50px 50px 0;
+    background-color: #fff;
+    color: #999;
+  }
+}
+
+.new-btn-box {
+  button {
+    padding: 0.5rem 1rem;
+    outline: none;
+    box-sizing: border-box;
+    // border: 1px solid #1a41aa;
+    border: none;
+    border-radius: 5px;
+    background-color: #3267fb;
+    color: #fff;
+    transition: all ease 0.2s;
+    cursor: pointer;
+    &:hover {
+      background-color: #2a59da;
+    }
+  }
+}
+
+.response-box {
+  font-size: 0.8em;
+  color: #555;
+}
+
+.book-list {
+  list-style: outside none none;
+  margin: 0;
+  padding: 30px 15px 60px;
+  display: flex;
+  flex-wrap: wrap;
+}
+.book-card {
+  background-color: #fafafa;
+  margin: 1rem;
+  width: 400px;
+  transition: all 0.3s ease-in-out;
+  position: relative;
+  display: flex;
+  border-radius: 5px;
+  padding: 0.5rem;
+  border: 1px solid transparent;
+  box-shadow: 2px 3px 10px 2px #ddd;
+
+  .book-img {
+    img {
+      background-color: #ccc;
+      margin: 0;
+      width: 100%;
+      border-radius: 5px;
+    }
+  }
+  .book-data {
+    padding-left: 0.5rem;
+    .book-title {
+      color: #444;
+      padding: 5px 0;
+      font-weight: 600;
+    }
+    .book-author {
+      color: #555;
+      padding: 0;
+      font-weight: 500;
+      font-size: 0.9em;
+    }
+
+    .book-other {
+      font-size: 0.8em;
+      font-weight: 300;
+    }
+  }
+}
+.book-card:hover {
+  box-shadow: 0px 0px 1px 0px #eee;
+}
+
+// Media query style for small screen
+@media only screen and (max-width: 600px) {
+  .sub-header {
+    padding: 0.3rem 2rem;
+    justify-content: center;
+  }
+}
