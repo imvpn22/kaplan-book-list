@@ -1,19 +1,33 @@
 import React, { Component } from 'react';
-// import Pagination from './Pagination';
-
 import axios from 'axios';
 import BookCard from './BookCard';
+import Popup from './Popup';
+import NewBook from './NewBook';
 
 class BookList extends Component {
   state = {
     bookList: [],
     isLoading: true,
     isFailed: false,
-    searchQur: ''
+    searchQur: '',
+    isPopupShow: false
   };
 
   componentDidMount() {
-    this.getBookList();
+    const ls = localStorage.getItem('bookList');
+    let bookList = [];
+
+    try {
+      bookList = JSON.parse(ls);
+    } catch (e) {
+      console.log(e);
+    }
+
+    if (bookList && bookList.length) {
+      this.setState({ bookList });
+    } else {
+      this.getBookList();
+    }
   }
 
   getBookList = () => {
@@ -26,6 +40,8 @@ class BookList extends Component {
         // console.log(res.data);
         const { items } = res.data;
         this.setState({ bookList: items, isLoading: false });
+        // Set in localStorage
+        localStorage.setItem('bookList', JSON.stringify(items));
       })
       .catch(err => {
         console.log(err);
@@ -63,8 +79,24 @@ class BookList extends Component {
     return filteredList;
   };
 
+  openPopup = () => {
+    this.setState({ isPopupShow: true });
+  };
+
+  closePopup = () => {
+    this.setState({ isPopupShow: false });
+  };
+
+  createBook = book => {
+    const { bookList } = this.state;
+    bookList.push(book);
+    this.setState(bookList);
+    localStorage.setItem('bookList', JSON.stringify(bookList));
+    this.closePopup();
+  };
+
   render() {
-    const { isLoading, isFailed } = this.state;
+    const { isLoading, isFailed, isPopupShow } = this.state;
     const filteredBookList = this.filterBooks();
 
     return (
@@ -91,7 +123,7 @@ class BookList extends Component {
             </button>
           </div>
           <div className="new-btn-box">
-            <button>Create New Book</button>
+            <button onClick={this.openPopup}>Create New Book</button>
           </div>
         </div>
 
@@ -106,7 +138,14 @@ class BookList extends Component {
             ? 'Failed'
             : 'No data'}
         </div>
-        {}
+
+        <Popup
+          title="Create New Book"
+          isPopupShow={isPopupShow}
+          closePopup={this.closePopup}
+        >
+          <NewBook createBook={this.createBook} />
+        </Popup>
       </div>
     );
   }
