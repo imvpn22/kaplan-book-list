@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.css": "/kaplan-book-list/static/css/main.2b1c0099.chunk.css",
-    "main.js": "/kaplan-book-list/static/js/main.886aa651.chunk.js",
-    "main.js.map": "/kaplan-book-list/static/js/main.886aa651.chunk.js.map",
+    "main.css": "/kaplan-book-list/static/css/main.5dfca7b6.chunk.css",
+    "main.js": "/kaplan-book-list/static/js/main.b1e3215d.chunk.js",
+    "main.js.map": "/kaplan-book-list/static/js/main.b1e3215d.chunk.js.map",
     "runtime-main.js": "/kaplan-book-list/static/js/runtime-main.1016a556.js",
     "runtime-main.js.map": "/kaplan-book-list/static/js/runtime-main.1016a556.js.map",
-    "static/js/2.534600b7.chunk.js": "/kaplan-book-list/static/js/2.534600b7.chunk.js",
-    "static/js/2.534600b7.chunk.js.map": "/kaplan-book-list/static/js/2.534600b7.chunk.js.map",
+    "static/js/2.992f0de0.chunk.js": "/kaplan-book-list/static/js/2.992f0de0.chunk.js",
+    "static/js/2.992f0de0.chunk.js.map": "/kaplan-book-list/static/js/2.992f0de0.chunk.js.map",
     "static/js/3.6271e640.chunk.js": "/kaplan-book-list/static/js/3.6271e640.chunk.js",
     "static/js/3.6271e640.chunk.js.map": "/kaplan-book-list/static/js/3.6271e640.chunk.js.map",
     "index.html": "/kaplan-book-list/index.html",
-    "static/css/main.2b1c0099.chunk.css.map": "/kaplan-book-list/static/css/main.2b1c0099.chunk.css.map",
-    "static/js/2.534600b7.chunk.js.LICENSE.txt": "/kaplan-book-list/static/js/2.534600b7.chunk.js.LICENSE.txt"
+    "static/css/main.5dfca7b6.chunk.css.map": "/kaplan-book-list/static/css/main.5dfca7b6.chunk.css.map",
+    "static/js/2.992f0de0.chunk.js.LICENSE.txt": "/kaplan-book-list/static/js/2.992f0de0.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.1016a556.js",
-    "static/js/2.534600b7.chunk.js",
-    "static/css/main.2b1c0099.chunk.css",
-    "static/js/main.886aa651.chunk.js"
+    "static/js/2.992f0de0.chunk.js",
+    "static/css/main.5dfca7b6.chunk.css",
+    "static/js/main.b1e3215d.chunk.js"
   ]
 }
