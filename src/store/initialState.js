@@ -7,7 +7,8 @@ try {
 }
 
 const initialState = {
-  books: { items }
+  books: { items },
+  showNewBookPopup: false
 };
 
 export default initialState;

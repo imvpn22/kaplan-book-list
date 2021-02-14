@@ -16,12 +16,7 @@ class BookList extends Component {
   };
 
   componentDidMount() {
-    // Don't make API call if data is present in localstorage
-    if (this.props.items && this.props.items.length) {
-      this.setState({ bookList: this.props.items });
-    } else {
-      this.getBookList();
-    }
+    this.getBookList();
   }
 
   getBookList = () => {
@@ -30,32 +25,23 @@ class BookList extends Component {
 
     this.props.actions.getBookList().then(() => {
       if (this.props.items && this.props.items.length) {
-        this.setState({
-          bookList: this.props.items,
-          isLoading: false,
-          isFailed: false
-        });
-
-        // Set new data is localstorage to persist
-        localStorage.setItem('bookList', JSON.stringify(this.props.items));
+        this.setState({ isLoading: false, isFailed: false });
       } else {
-        this.setState({ bookList: [], isLoading: false, isFailed: true });
+        this.setState({ isLoading: false, isFailed: true });
       }
     });
   };
 
   handleQuery = e => {
     let searchQur = e.target.value;
-    searchQur = searchQur.replace(/[-\\/\\^$*+?.()|[\]{}]/g, '\\$&'); // Remove escape characters
-
+    // modify to remove escape characters
+    searchQur = searchQur.replace(/[-\\/\\^$*+?.()|[\]{}]/g, '\\$&');
     this.setState({ searchQur });
   };
 
-  filterBooks = () => {
-    const { bookList, searchQur } = this.state;
+  filterBooks = (bookList, searchQur) => {
     const searchRe = new RegExp(searchQur, 'ig');
-
-    const filteredList = bookList.filter(book => {
+    return bookList.filter(book => {
       if (
         (book.volumeInfo.title && !!book.volumeInfo.title.match(searchRe)) ||
         (book.volumeInfo.publisher &&
@@ -70,29 +56,17 @@ class BookList extends Component {
       }
       return false;
     });
-
-    return filteredList;
   };
 
-  openPopup = () => {
-    this.setState({ isPopupShow: true });
-  };
-
-  closePopup = () => {
-    this.setState({ isPopupShow: false });
-  };
-
-  createBook = book => {
-    const { bookList } = this.state;
-    bookList.push(book);
-    this.setState(bookList);
-    localStorage.setItem('bookList', JSON.stringify(bookList));
-    this.closePopup();
+  toggleCreatePopup = () => {
+    const { showNewBookPopup } = this.props;
+    this.props.actions.toggleNewBookPopup(!showNewBookPopup);
   };
 
   render() {
-    const { isLoading, isFailed, isPopupShow } = this.state;
-    const filteredBookList = this.filterBooks();
+    const { isLoading, isFailed, searchQur } = this.state;
+    const { items, showNewBookPopup } = this.props;
+    const filteredBookList = this.filterBooks(items, searchQur);
 
     return (
       <div className="main">
@@ -118,7 +92,7 @@ class BookList extends Component {
             </button>
           </div>
           <div className="new-btn-box">
-            <button onClick={this.openPopup}>Create New Book</button>
+            <button onClick={this.toggleCreatePopup}>Create New Book</button>
           </div>
         </div>
 
@@ -136,10 +110,10 @@ class BookList extends Component {
 
         <Popup
           title="Create New Book"
-          isPopupShow={isPopupShow}
-          closePopup={this.closePopup}
+          isPopupShow={showNewBookPopup}
+          closePopup={this.toggleCreatePopup}
         >
-          <NewBook createBook={this.createBook} />
+          <NewBook />
         </Popup>
       </div>
     );
@@ -147,7 +121,8 @@ class BookList extends Component {
 }
 
 const mapStateToProps = state => ({
-  items: state.books.items
+  items: state.books.items,
+  showNewBookPopup: state.configs.showNewBookPopup
 });
 
 const mapDispatchToProps = dispatch => ({
