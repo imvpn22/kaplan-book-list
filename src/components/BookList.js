@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import BookCard from './BookCard';
 import Popup from './Popup';
 import NewBook from './NewBook';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import * as actions from '../actions';
 
 class BookList extends Component {
   state = {
@@ -14,17 +16,9 @@ class BookList extends Component {
   };
 
   componentDidMount() {
-    const ls = localStorage.getItem('bookList');
-    let bookList = [];
-
-    try {
-      bookList = JSON.parse(ls);
-    } catch (e) {
-      console.log(e);
-    }
-
-    if (bookList && bookList.length) {
-      this.setState({ bookList });
+    // Don't make API call if data is present in localstorage
+    if (this.props.items && this.props.items.length) {
+      this.setState({ bookList: this.props.items });
     } else {
       this.getBookList();
     }
@@ -34,19 +28,20 @@ class BookList extends Component {
     // Set initial state for showing loading
     this.setState({ isLoading: true, isFailed: false });
 
-    axios
-      .get('https://www.googleapis.com/books/v1/volumes?q=kaplan%20test%20prep')
-      .then(res => {
-        // console.log(res.data);
-        const { items } = res.data;
-        this.setState({ bookList: items, isLoading: false });
-        // Set in localStorage
-        localStorage.setItem('bookList', JSON.stringify(items));
-      })
-      .catch(err => {
-        console.log(err);
+    this.props.actions.getBookList().then(() => {
+      if (this.props.items && this.props.items.length) {
+        this.setState({
+          bookList: this.props.items,
+          isLoading: false,
+          isFailed: false
+        });
+
+        // Set new data is localstorage to persist
+        localStorage.setItem('bookList', JSON.stringify(this.props.items));
+      } else {
         this.setState({ bookList: [], isLoading: false, isFailed: true });
-      });
+      }
+    });
   };
 
   handleQuery = e => {
@@ -151,4 +146,12 @@ class BookList extends Component {
   }
 }
 
-export default BookList;
+const mapStateToProps = state => ({
+  items: state.books.items
+});
+
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(actions, dispatch)
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(BookList);
